@@ -26,6 +26,7 @@ img_right = convertToGray(img_right);
 
 rng('default') % seeding for reproducibility
 
+[height, width] = size(img_left);
 K = 2;
 lambda = 20;
 d_max = 15;
@@ -47,8 +48,7 @@ end
 
 
 %% test for 0-1 swap :
-[indices01, unary01] = computeUnary(img_left, img_right, labels, 0, 1);
-
+[new_labels,E_initial,E_optimal] = swap(img_left, img_right, labels, 0, 1, K, lambda);
     
 %%
 % TODO : plot the obtained disparity map
