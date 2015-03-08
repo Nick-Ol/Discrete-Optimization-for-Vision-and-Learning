@@ -31,7 +31,7 @@ K = 2;
 lambda = 20;
 d_max = 15;
 
-labels = randi([0 15],height,width); % start with any random labeling
+labels = randi([0 d_max],height,width); % start with any random labeling
 % set an 18-pixel frame to -1
 for i = 1:18 % top
         labels(i,:) = -1;
@@ -42,14 +42,34 @@ end
 for j = 1:18 % left
     labels(:,j) = -1;
 end
-for i = (width-18):width % right
+for j = (width-18):width % right
     labels(:,j) = -1;
 end
 
 
-%% test for 0-1 swap :
-[new_labels,E_initial,E_optimal] = swap(img_left, img_right, labels, 0, 1, K, lambda);
-    
+%% test for middle sub-image :
+small_img_left = img_left(ceil(height/5):(height-ceil(height/5)),ceil(width/5):(width-ceil(width/5)));
+small_img_right = img_right(ceil(height/5):(height-ceil(height/5)),ceil(width/5):(width-ceil(width/5)));
+small_disparity = disparity(ceil(height/5):(height-ceil(height/5)),ceil(width/5):(width-ceil(width/5)));
+[small_height, small_width] = size(small_img_left);
+
+small_labels = randi([0 7],small_height,small_width); % start with any random labeling
+% set an 18-pixel frame to -1
+for i = 1:18 % top
+        small_labels(i,:) = -1;
+end
+for i = (small_height-18):small_height % bottom
+    small_labels(i,:) = -1;
+end
+for j = 1:18 % left
+    small_labels(:,j) = -1;
+end
+for j = (small_width-18):small_width % right
+    small_labels(:,j) = -1;
+end
+
+[small_labels, energies] = abswap(small_img_left, small_img_right, small_labels, 7, K, lambda, 1);
+
 %%
 % TODO : plot the obtained disparity map
 % figure(3); clf(3);

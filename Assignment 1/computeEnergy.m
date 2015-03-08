@@ -1,4 +1,4 @@
-function [energy] = computeEnergy(img_left, img_right, labels, d_max, K, lambda)
+function [energy] = computeEnergy(img_left, img_right, labels, K, lambda)
 
 energy = 0;
 [height, width] = size(img_left);
