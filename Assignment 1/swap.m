@@ -10,10 +10,11 @@ pairwise(1,2) = computePairwise(a, b, K);
 pairwise(2,1) = pairwise(1,2);
 
 % edge_weights :
+[height, width] = size(img_left);
 n_ab_terms = size(indices,2); % nb of nodes in the graph
 edge_weights = zeros(n_ab_terms);
 for i = 1:n_ab_terms
-    for j = 1:n_ab_terms
+    for j = max(1,i-width-1):min(n_ab_terms,i+width+1)
         y_p = indices(1,i);
         x_p = indices(2,i);
         y_q = indices(1,j);
@@ -22,8 +23,8 @@ for i = 1:n_ab_terms
             edge_weights(i,j) = computeWeight(img_left,img_right,y_p,x_p,y_q,x_q,lambda);
         end
     end
-     fprintf('%i over %i\n', i, n_ab_terms);
 end
+edge_weights = sparse(edge_weights);
 
 % now optimize this binary MRF :
 [labels_ab,E_initial,E_optimal] = optimizeBinaryMRF(unary, edge_weights, pairwise);
