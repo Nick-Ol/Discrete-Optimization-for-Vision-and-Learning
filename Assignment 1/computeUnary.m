@@ -22,33 +22,33 @@ for i = 1:n_ab_terms
     unary(2,i) = abs(img_left(indices(1,i), indices(2,i)) - img_right(indices(1,i), indices(2,i) - b));
     
     % look at the neighbours :
-    top_label = labels(indices(1,i), indices(2,i)-1);
-    bottom_label = labels(indices(1,i), indices(2,i)+1);
-    left_label = labels(indices(1,i)-1, indices(2,i));
-    right_label = labels(indices(1,i)+1, indices(2,i));
+    top_label = labels(indices(1,i)-1, indices(2,i));
+    bottom_label = labels(indices(1,i)+1, indices(2,i));
+    left_label = labels(indices(1,i), indices(2,i)-1);
+    right_label = labels(indices(1,i), indices(2,i)+1);
     if (top_label~=a && top_label~=b) % top
-        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i), indices(2,i)-1, lambda);
+        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i)-1, indices(2,i), lambda);
         pairwise_a = computePairwise(a, top_label, K);
         pairwise_b = computePairwise(b, top_label, K);
         unary(1,i) = unary(1,i) + weight*pairwise_a;
         unary(2,i) = unary(2,i) + weight*pairwise_b;     
     end
     if (bottom_label~=a && bottom_label~=b) % bottom
-        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i), indices(2,i)+1, lambda);
+        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i)+1, indices(2,i), lambda);
         pairwise_a = computePairwise(a, bottom_label, K);
         pairwise_b = computePairwise(b, bottom_label, K);
         unary(1,i) = unary(1,i) + weight*pairwise_a;
         unary(2,i) = unary(2,i) + weight*pairwise_b;
     end
     if (left_label~=a && left_label~=b) % left
-        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i)-1, indices(2,i), lambda);
+        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i), indices(2,i)-1, lambda);
         pairwise_a = computePairwise(a, left_label, K);
         pairwise_b = computePairwise(b, left_label, K);
         unary(1,i) = unary(1,i) + weight*pairwise_a;
         unary(2,i) = unary(2,i) + weight*pairwise_b;
     end
     if (right_label~=a && right_label~=b) % right
-        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i)+1, indices(2,i), lambda);
+        weight = computeWeight(img_left, img_right, indices(1,i), indices(2,i), indices(1,i), indices(2,i)-1, lambda);
         pairwise_a = computePairwise(a, right_label, K);
         pairwise_b = computePairwise(b, right_label, K);
         unary(1,i) = unary(1,i) + weight*pairwise_a;
