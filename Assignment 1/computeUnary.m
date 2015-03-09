@@ -11,8 +11,6 @@ for i = 18:(height-18)
         end
     end
 end
-%[row, col] = find(labels==a || labels==b);
-%indices = [row; col]';
 
 % get the unary terms :
 n_ab_terms = size(indices,2);

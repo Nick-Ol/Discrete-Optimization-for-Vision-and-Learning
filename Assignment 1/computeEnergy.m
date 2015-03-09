@@ -4,9 +4,9 @@ energy = 0;
 [height, width] = size(img_left);
 
 % unary terms :
-for i = 18:(height-18)
-    for j = 18:(width-18)
-        energy = energy + abs(img_left(i, j) - img_right(i, j - labels(i,j)));
+for i = 19:(height-19)
+    for j = 19:(width-19)
+        energy = energy + abs(double(img_left(i, j)) - double(img_right(i, j - labels(i,j))));
     end
 end
 

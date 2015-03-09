@@ -18,5 +18,8 @@ for iter = 1:n_iter
             new_labels = swap(img_left, img_right, new_labels, a, b, K, lambda);
         end
     end
+    title_string = sprintf('After iteration %i over %i', iter, n_iter);
+    figure, imagesc(new_labels); title(title_string);
+        
     energies(iter+1) = computeEnergy(img_left, img_right, new_labels, K, lambda);
 end
