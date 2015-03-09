@@ -23,7 +23,6 @@ img_left  = convertToGray(img_left);
 img_right = convertToGray(img_right);
 
 %% Alpha-beta swap algorithm :
-
 rng('default') % seeding for reproducibility
 
 [height, width] = size(img_left);
@@ -33,18 +32,10 @@ d_max = 15;
 
 labels = randi([0 d_max],height,width); % start with any random labeling
 % set an 18-pixel frame to -1
-for i = 1:18 % top
-        labels(i,:) = -1;
-end
-for i = (height-18):height % bottom
-    labels(i,:) = -1;
-end
-for j = 1:18 % left
-    labels(:,j) = -1;
-end
-for j = (width-18):width % right
-    labels(:,j) = -1;
-end
+labels(1:18, :) = -1; %top
+labels((height-18):height, :) = -1; %bottom
+labels(:, 1:18) = -1; %left
+labels(:, (width-18):width) = -1; %right
 
 
 %% test for middle sub-image :
