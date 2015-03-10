@@ -21,21 +21,38 @@ figure(2); clf(2); imagesc(disparity); colormap(gray); title('Disparity Image - 
 % smoothing them with a gaussian kernel of sigma = 0.6
 img_left  = convertToGray(img_left);
 img_right = convertToGray(img_right);
+img_left = cast(img_left,'double');
+img_right = cast(img_right,'double');
 
 %% Alpha-beta swap algorithm :
+
 rng('default') % seeding for reproducibility
 
 [height, width] = size(img_left);
+n_pixels = height*width;
 K = 2;
 lambda = 20;
 d_max = 15;
 
-labels = randi([0 d_max],height,width); % start with any random labeling
-% set an 18-pixel frame to -1
-labels(1:18, :) = -1; % top
-labels((height-18):height, :) = -1; % bottom
-labels(:, 1:18) = -1; % left
-labels(:, (width-18):width) = -1; % right
+global_edge_weights = sparse(n_pixels, n_pixels);
+for i = 1:n_pixels
+    if (mod(i,height)~=1)
+        global_edge_weights(i, i-1) = computeWeight(img_left,img_right,i,i-1,lambda); % top
+    end
+    if (mod(i,height)~=0)
+        global_edge_weights(i, i+1) = computeWeight(img_left,img_right,i,i+1,lambda); % bottom
+    end
+    if (i>height)
+        global_edge_weights(i, i-height) = computeWeight(img_left,img_right,i,i-height,lambda); % left
+    end
+    if (i<(n_pixels-height))
+        global_edge_weights(i, i+height) = computeWeight(img_left,img_right,i,i+height,lambda); % right
+    end
+end
+
+labels = initializeLabels(img_left, img_right, d_max);
+%lab = reshape(labels, [height,width]);
+[labels, energies] = abswap(img_left, img_right, labels, d_max, K, lambda, global_edge_weights, 10);
 
 
 %% test for middle sub-image :
@@ -44,22 +61,8 @@ small_img_right = img_right(ceil(height/5):(height-ceil(height/5)),ceil(width/5)
 small_disparity = disparity(ceil(height/5):(height-ceil(height/5)),ceil(width/5):(width-ceil(width/5)));
 [small_height, small_width] = size(small_img_left);
 
-small_labels = randi([0 7],small_height,small_width); % start with any random labeling
-% set an 18-pixel frame to -1
-for i = 1:18 % top
-        small_labels(i,:) = -1;
-end
-for i = (small_height-18):small_height % bottom
-    small_labels(i,:) = -1;
-end
-for j = 1:18 % left
-    small_labels(:,j) = -1;
-end
-for j = (small_width-18):small_width % right
-    small_labels(:,j) = -1;
-end
-
-[small_labels, energies] = abswap(small_img_left, small_img_right, small_labels, 7, K, lambda, 1);
+small_labels = initializeLabels(small_img_left, small_img_right, d_max);
+[small_labels, energies] = abswap(small_img_left, small_img_right, small_labels, d_max, K, lambda, 3);
 
 %%
 % TODO : plot the obtained disparity map

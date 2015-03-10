@@ -1,7 +1,5 @@
-function [weight] = computeWeight(img_left, img_right, y_p, x_p, y_q, x_q, lambda)
+function [weight] = computeWeight(img_left, img_right, i, j, lambda)
 
-if (abs(img_left(y_p,x_p)-img_right(y_q,x_q))<=8)
-    weight = 2 * lambda;
-else
-    weight = lambda;
-end
+weight = (abs(img_left(i)-img_right(j))<=8)*2*lambda...
+    + (abs(img_left(i)-img_right(j))>8)*lambda;
+
