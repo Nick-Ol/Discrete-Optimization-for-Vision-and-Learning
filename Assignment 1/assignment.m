@@ -51,26 +51,17 @@ for i = 1:n_pixels
 end
 
 labels = initializeLabels(img_left, img_right, d_max);
-%lab = reshape(labels, [height,width]);
-[labels, energies] = abswap(img_left, img_right, labels, d_max, K, lambda, global_edge_weights, 10);
+[labels, energy] = abswap(img_left, img_right, labels, d_max, K, lambda, global_edge_weights, 10);
 
-
-%% test for middle sub-image :
-small_img_left = img_left(ceil(height/5):(height-ceil(height/5)),ceil(width/5):(width-ceil(width/5)));
-small_img_right = img_right(ceil(height/5):(height-ceil(height/5)),ceil(width/5):(width-ceil(width/5)));
-small_disparity = disparity(ceil(height/5):(height-ceil(height/5)),ceil(width/5):(width-ceil(width/5)));
-[small_height, small_width] = size(small_img_left);
-
-small_labels = initializeLabels(small_img_left, small_img_right, d_max);
-[small_labels, energies] = abswap(small_img_left, small_img_right, small_labels, d_max, K, lambda, 3);
+disparity_est = reshape(labels, [height,width]);
 
 %%
-% TODO : plot the obtained disparity map
-% figure(3); clf(3);
-% imagesc(disparity_est); colormap(gray);
-% title('Disparity Image');
+% plot the obtained disparity map
+figure(3); clf(3);
+imagesc(disparity_est); colormap(gray);
+title('Disparity Image');
 
-% TODO : plot the energy per iteration
-% figure(4); clf(4);
-% plot(1:length(energy),energy)
-% title('Energy per iteration')
+% plot the energy per iteration
+figure(4); clf(4);
+plot(1:length(energy),energy)
+title('Energy per iteration')

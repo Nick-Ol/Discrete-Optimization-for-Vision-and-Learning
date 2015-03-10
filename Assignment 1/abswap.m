@@ -1,26 +1,28 @@
-function [new_labels, energies] = abswap(img_left, img_right, old_labels, d_max, K, lambda, global_edge_weights, n_iter)
+function [new_labels, energies] = abswap(img_left, img_right, old_labels, d_max, K, lambda, global_edge_weights, max_iter)
 % compute each ab swap, with a and b between 0 and d_max, n_iter times
-% TODO : add a stopping criterion
 
-energies = zeros(1, n_iter+1);
-%energies(1) = computeEnergy(img_left, img_right, old_labels, K, lambda);
+energies = computeEnergy(img_left, img_right, old_labels, K, lambda);
 [height, width] = size(img_left);
 
 comb = combnk(0:d_max,2)'; % all pairs of labels, 2*n_comb matrix
 n_comb = size(comb,2);
 new_labels = old_labels;
 
-for iter = 1:n_iter
+for iter = 1:max_iter
     for i = 1:n_comb
         a = comb(1,i);
         b = comb(2,i);
-        fprintf('Computing %i-%i swap for iteration %i over %i\n', a, b, iter, n_iter);
+        fprintf('Computing %i-%i swap for iteration %i over %i\n', a, b, iter, max_iter);
         if (any(new_labels(:)==a) && any(new_labels(:)==b)) % check if both labels a and b still pertinent
             new_labels = swap(img_left, img_right, new_labels, a, b, K, lambda, global_edge_weights);
         end
     end
-    title_string = sprintf('After iteration %i over %i', iter, n_iter);
-    figure, imagesc(reshape(new_labels, [height,width])); title(title_string);
+    title_string = sprintf('After iteration %i over %i', iter, max_iter);
+    figure, imagesc(reshape(new_labels, [height,width])); colormap(gray); title(title_string);
         
-   % energies(iter+1) = computeEnergy(img_left, img_right, new_labels, K, lambda);
+   energies = [energies computeEnergy(img_left, img_right, new_labels, K, lambda)];
+   if (abs(energies(iter+1) - energies(iter))<1)
+        fprintf('Stops after %i iterations.\n', iter);
+       break;
+   end
 end

@@ -4,15 +4,8 @@ energy = 0;
 [height, width] = size(img_left);
 n_pixels = height*width;
 
-% unary terms :
-for i = 19:(height-19)
-    for j = 19:(width-19)
-        energy = energy + abs(img_left(i, j) - img_right(i, j - labels((j-1)*height+i)));
-    end
-end
-
-% pairwise terms:
 for i = (height+1):(n_pixels-height-1)
+    energy = energy + abs(img_left(i) - img_right(i - labels(i)*height));
     if (labels(i-1)~=-1)
         weight_top = computeWeight(img_left,img_right,i,i-1,lambda);
         pairwise_top = computePairwise(labels(i),labels(i-1),K);
@@ -29,9 +22,9 @@ for i = (height+1):(n_pixels-height-1)
         energy = energy + weight_left*pairwise_left;
     end
     if (labels(i+height)~=-1)
-    weight_right = computeWeight(img_left,img_right,i,i+height,lambda);
-    pairwise_right = computePairwise(labels(i),labels(i+height),K);
-    energy = energy + weight_right*pairwise_right;
+        weight_right = computeWeight(img_left,img_right,i,i+height,lambda);
+        pairwise_right = computePairwise(labels(i),labels(i+height),K);
+        energy = energy + weight_right*pairwise_right;
     end
 end
     

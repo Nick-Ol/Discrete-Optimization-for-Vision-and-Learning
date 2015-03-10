@@ -10,7 +10,7 @@ for i = 19:(height-19)
         for lab = 1:d_max+1
             data_terms(lab) = abs(img_left(i, j) - img_right(i, j-lab-1));
         end
-        [val, idx] = min(data_terms);
+        [~, idx] = min(data_terms);
         labels((j-1)*height+i) = idx-1;
     end
 end
