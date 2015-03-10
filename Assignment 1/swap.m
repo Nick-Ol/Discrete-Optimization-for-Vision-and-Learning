@@ -23,4 +23,3 @@ for i = 1:size(indices,2);
         new_labels(indices(i)) = b;
     end
 end
-

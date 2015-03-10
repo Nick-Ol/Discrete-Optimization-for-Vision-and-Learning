@@ -4,7 +4,6 @@ function [indices, unary] = computeUnary(img_left, img_right, labels, a, b, lamb
 indices = find(labels==a|labels==b);
 [height, ~] = size(img_left);
 
-% get the unary terms :
 n_ab_terms = size(indices,2);
 unary = zeros(2, n_ab_terms);
 % label a :
