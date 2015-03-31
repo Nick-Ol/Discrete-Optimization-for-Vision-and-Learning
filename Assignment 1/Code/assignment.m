@@ -24,7 +24,7 @@ img_right = convertToGray(img_right);
 img_left = cast(img_left,'double');
 img_right = cast(img_right,'double');
 
-%% Alpha-beta swap algorithm :
+%% Alpha-beta swap algorithm:
 
 rng('default') % seeding for reproducibility
 
