@@ -5,7 +5,9 @@ energy = 0;
 n_pixels = height*width;
 
 for i = (height+1):(n_pixels-height-1)
-    energy = energy + abs(img_left(i) - img_right(i - labels(i)*height));
+    if (labels(i)~=-1)
+        energy = energy + abs(img_left(i) - img_right(i - labels(i)*height));
+    end
     if (labels(i-1)~=-1)
         weight_top = computeWeight(img_left,img_right,i,i-1,lambda);
         pairwise_top = computePairwise(labels(i),labels(i-1),K);

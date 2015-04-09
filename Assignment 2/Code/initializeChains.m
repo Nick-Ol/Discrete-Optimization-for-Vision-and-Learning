@@ -11,8 +11,8 @@ chains_unary = cell(n_chains, 1);
 chains_pairwise = cell(n_chains, 1);
 
 global_unary_terms = zeros(d_max+1, n_pixels);
-for i = 19:(height-19)
-    for j = 19:(width-19)
+for i = 19:(height-18)
+    for j = 19:(width-18)
         for lab = 0:d_max
             global_unary_terms(lab+1,(j-1)*height+i) = computeUnary(img_left, img_right, (j-1)*height+i, lab);
         end
