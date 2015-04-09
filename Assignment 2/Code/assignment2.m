@@ -31,8 +31,7 @@ d_max = 15;
 
 [chains_indices, chains_unary, chains_pairwise] = initializeChains(img_left, img_right, K, lambda, d_max);
 
-% test reparam for one pixel :
-[chains_unary_reparam, chains_pairwise_reparam] = reparam(img_left, chains_unary, chains_pairwise, 10000);
+[labels, primal_energies, dual_energies] = trw(img_left, img_right, chains_unary, chains_pairwise, K, lambda, 1);
 
 
 % TODO : plot the obtained disparity map
