@@ -34,14 +34,19 @@ d_max = 15;
 [chains_indices, chains_unary, chains_pairwise] = initializeChains(img_left, img_right, K, lambda, d_max);
 
 [labels, primal_energies, dual_energies] = trw(img_left, img_right, chains_unary, chains_pairwise, K, lambda, 10);
+disparity_est = reshape(labels, [height, width]);
 
+% energies after iteration 1:
+primal_energies[0]
+dual_energies[0]
 
-% TODO : plot the obtained disparity map
-% figure(3); clf(3);
-% imagesc(disparity_est); colormap(gray);
-% title('Disparity Image');
+% plot the obtained disparity map
+figure(3); clf(3);
+imagesc(disparity_est); colormap(gray);
+title('TRW-S disparity map after iteration 10');
 
-% TODO : plot the energy per iteration
-% figure(4); clf(4);
-% plot(1:length(energy),energy)
-% title('Energy per iteration')
+% plot the energies per iteration
+figure(4); clf(4);
+plot(1:length(dual_energies), dual_energies)
+plot(1:length(primal_energies), primal_energies)
+title('Energes per iteration')
