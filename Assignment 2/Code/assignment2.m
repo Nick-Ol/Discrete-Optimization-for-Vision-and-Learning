@@ -20,6 +20,8 @@ figure(2); clf(2); imagesc(disparity); colormap(gray); title('Disparity Image - 
 % smoothing them with a gaussian kernel of sigma = 0.6
 img_left  = convertToGray(img_left);
 img_right = convertToGray(img_right);
+img_left = cast(img_left,'double');
+img_right = cast(img_right,'double');
 
 %% TRW-S algorithm:
 
@@ -29,9 +31,12 @@ K = 2;
 lambda = 20;
 d_max = 15;
 
-[chains_indices, chains_unary, chains_pairwise] = initializeChains(img_left, img_right, K, lambda, d_max);
+small_img_left = imresize(img_left, [height/4, width/4]);
+small_img_right = imresize(img_right, [height/4, width/4]);
 
-[labels, primal_energies, dual_energies] = trw(img_left, img_right, chains_unary, chains_pairwise, K, lambda, 1);
+[chains_indices, chains_unary, chains_pairwise] = initializeChains(small_img_left, small_img_right, K, lambda, d_max);
+
+[labels, primal_energies, dual_energies] = trw(small_img_left, small_img_right, chains_unary, chains_pairwise, K, lambda, 1);
 
 
 % TODO : plot the obtained disparity map

@@ -35,7 +35,7 @@ for lab=1:n_lab % label for i
         pairwise_right = reshape(pairwise_right,[n_lab n_lab]); % dim n_labxn_lab
         msg_right = zeros(n_lab, 1);
         for lab_right=1:n_lab
-            msg_right(lab_left) = row_chain_unary(lab_right, col_i-17)*pairwise_right(lab,lab_right);
+            msg_right(lab_right) = row_chain_unary(lab_right, col_i-17)*pairwise_right(lab,lab_right);
         end
         param_val = min(msg_right);
         row_chain_unary(lab, col_i-18) = row_chain_unary(lab, col_i-18) + param_val;
@@ -72,7 +72,7 @@ for lab=1:n_lab % label for i
         col_chain_pairwise(row_i-19,:,:) = pairwise_top;
     end
     % msg from bottom
-    if row_i ~= (height-1)
+    if row_i ~= (height-18)
         pairwise_bottom = col_chain_pairwise(row_i-18,:,:); % bottom pairwise at index row_i-18
         pairwise_bottom = reshape(pairwise_bottom,[n_lab n_lab]); % dim n_labxn_lab
         msg_bottom = zeros(n_lab, 1);
@@ -84,7 +84,7 @@ for lab=1:n_lab % label for i
         for lab_bottom = 1:n_lab
             pairwise_bottom(lab, lab_bottom) = pairwise_bottom(lab, lab_bottom) - param_val;
         end
-         pairwise_bottom = reshape(pairwise_top,[1 n_lab n_lab]); % dim 1xn_labxn_lab
+         pairwise_bottom = reshape(pairwise_bottom,[1 n_lab n_lab]); % dim 1xn_labxn_lab
         col_chain_pairwise(row_i-18,:,:) = pairwise_bottom;
     end
 end

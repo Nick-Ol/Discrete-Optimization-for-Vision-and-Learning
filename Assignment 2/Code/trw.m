@@ -17,6 +17,6 @@ for iter=1:n_iter
     labels = findLabels(img_left, chains_unary);
     title_string = sprintf('After iteration %i', iter);
     figure, imagesc(reshape(labels, [height,width])); colormap(gray); title(title_string);
-    primal_energies(i) = computePrimalEnergy(img_left, img_right, labels, K, lambda);
-    dual_energies(i) = computeDualEnergy(img_left, chains_unary, chains_pairwise);
+    primal_energies(iter) = computePrimalEnergy(img_left, img_right, labels, K, lambda);
+    dual_energies(iter) = computeDualEnergy(img_left, chains_unary, chains_pairwise);
 end

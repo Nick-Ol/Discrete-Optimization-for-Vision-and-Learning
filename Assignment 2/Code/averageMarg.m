@@ -1,7 +1,7 @@
 function chains_unary_avg = averageMarg(img_left, chains_unary, i)
 % average min-marginals for pixel i
 
-[height, width] = size(img_left);
+[height, ~] = size(img_left);
 row_i = mod(i,height);
 col_i = (i - row_i)/height +1;
 chains_unary_avg = chains_unary;
