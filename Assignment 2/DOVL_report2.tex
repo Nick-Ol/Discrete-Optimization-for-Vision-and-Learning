@@ -29,8 +29,7 @@
 	
 \maketitle
 
-We use pixel lines and pixel rows as trees for the decomposition. We have 288 + 384 = 672 trees, and each pixel belongs to exactly two trees : its line and its row.
-\\In order to speed up the algorithm, the labels were initialized using the unary terms. The initial label for pixel $p$ was selected as the $d \in \left[ 0, d_{max}\right] $ which minimizes $\mathcal{D}_p(l_p) = |I_{left}(y,x)-I_{right}(y,x-d)|$.
+We use pixel lines and columns as trees for the decomposition. We have 288 + 384 = 672 trees, and each pixel belongs to exactly two trees : its line and its row.
 
 
 	\begin{figure}[H]
@@ -38,8 +37,8 @@ We use pixel lines and pixel rows as trees for the decomposition. We have 288 + 
 		\noindent\includegraphics[scale=0.4]{dispmap.png}
 		\caption{Obtained disparity map after 1 iteration}
 	\end{figure}
-Our algorithm took too much time to converge in Matlab, so we onyl present the result after 1 iteration (all pixels have been reparametrized).
-The result is good, but we still see horizontal and vertical stripe, due to the trees we chose.
+Our algorithm took too much time to converge in Matlab, so we only present the result after 1 iteration (all pixels have been reparametrized).
+The result is quite good, but we still see horizontal and vertical stripes, due to the trees we chose.
 	\begin{figure}[H]
 		\centering
 		%\noindent\includegraphics[scale=2]{images/hypnoogle.png}
